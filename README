@@ -1,0 +1,7 @@
+This is just a very small project to learn Googles new language Go.
+I got some code written in Eiffel from my informatics professor(http://karlheinz-hug.de/informatik/index.htm) and im going to tranlate it into Go.
+
+This programm is able to calculate a mathematic expression and returns the result.
+For the expression the parameters a,b,c and d can be used.
+Example: 
+./ExpressionCalculator -a=3 -b=2 -c=4.90 -d=34 -exp=a*b+(d-a)*c 
