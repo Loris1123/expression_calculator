@@ -3,7 +3,7 @@
 * Date: 2013-03-1
 * Last Update: 2013-03-1
 * File: main.go
-* Main file for the expression calculator.
+* Description: Main file for the expression calculator.
 */
 
 package main
@@ -11,6 +11,7 @@ package main
 import (
 	"fmt"
 	"flag"
+	"expression_calculator/interpreter"
 )
 
 var a,b,c,d float64
@@ -25,6 +26,8 @@ func main(){
 	println(c)
 	println(d)
 	println(expression)
+
+	interpreter.Interpret(a,b,c,d,expression)
 }
 
 func initFlags(){
