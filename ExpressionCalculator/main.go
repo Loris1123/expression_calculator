@@ -27,7 +27,7 @@ func main(){
 	println(d)
 	println(expression)
 
-	interpreter.Interpret(a,b,c,d,expression)
+	interpreter.Interpret_simple(a,b,c,d,expression)
 }
 
 func initFlags(){
