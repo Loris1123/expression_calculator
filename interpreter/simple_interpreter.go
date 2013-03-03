@@ -1,33 +1,74 @@
 /*
 * Author: https://github.com/Loris1123
 * Date: 2013-03-1
-* Last Update: 2013-03-2
+* Last Update: 2013-03-3
 * File: simple_interpreter.go
 * Description: This is the simple interpreter which can calculate only simple expressions. (No exponents or numbers in expression)
 */
 
 package interpreter
 
-
+import "strings"
 
 var a,b,c,d float64
-var expression, symbol string
 //TODO: Symbol as character
+var symbol string = ""
+var index int = 0
+//TODO: Input as char array
+var input = make([]string, 0)  //initial capacity 0 and no values. Overwrite later
+var end_of_input bool = false
 
-
-func Interpret_simple(a,b,c,d float64, expression string){
+func Interpret_simple(locA,locB,locC,locD float64, expression string){
 
 	//check_success(expression != nil && len(s)>0, "Expression is nil or too short")
-
+	a = locA
+	b = locB
+	c = locC
+	d = locD
 	println(a)
 	println(b)
 	println(c)
 	println(d)
 	println(expression)
+	
+	test := "a"	
 
-	println(float_value(4,"/",5))
+	tmp := strings.Split(test,"")
+	input = tmp  //Overwrite input with the real input.
 
 
+	read_next_symbol()
+
+	print(ident())
+
+}
+
+
+/*
+* EBNF Rule: 
+* ident = "a" | "b" | "c" | "d"
+*/
+func ident() float64{
+	result := 0.0
+	switch symbol{
+		case "a": result = a
+		case "b": result = b
+		case "c": result = c
+		case "d": result = d
+		default: panic("Unknown variable: "+ symbol)
+	}
+	read_next_symbol()
+	return result
+}
+
+func read_next_symbol(){
+	if index >= 0 && index < len(input){
+		symbol = input[index]
+		index ++
+	}
+	if index == len(input){
+		end_of_input = true
+	}
 }
 
 
