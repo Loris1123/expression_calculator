@@ -31,7 +31,7 @@ func Interpret_simple(locA,locB,locC,locD float64, expression string){
 	println(d)
 	println(expression)
 	
-	test := "a"	
+	test := "()abc"	
 
 	tmp := strings.Split(test,"")
 	input = tmp  //Overwrite input with the real input.
@@ -39,12 +39,37 @@ func Interpret_simple(locA,locB,locC,locD float64, expression string){
 
 	read_next_symbol()
 
-	print(ident())
+	print(factor())
 
 }
 
+/*
+* Reads a factor from input
+* EBNF Rule:
+* Factor = Ident | "("SimpleExpression")"
+*/
+func factor() float64{
+	result := 0.0
+	check_success(!end_of_input,"Unexpected end of input")
+	if symbol == "a" || symbol == "b" || symbol == "c" || symbol == "d"{
+		result = ident()
+	} else if symbol == "("{
+		read_next_symbol()
+		//result = simple_expression
+		check_success(!end_of_input,"Unexpected end of input")
+		if symbol == ")"{
+			read_next_symbol()
+		}else{
+			panic("Unexpected "+symbol+" -- Expecting )")
+		}
+	}else{
+		panic("Unexpected "+symbol+" -- Expecting ( or Ident")
+	}
+	return result
+}
 
 /*
+* Reads an ident from input
 * EBNF Rule: 
 * ident = "a" | "b" | "c" | "d"
 */
@@ -65,8 +90,7 @@ func read_next_symbol(){
 	if index >= 0 && index < len(input){
 		symbol = input[index]
 		index ++
-	}
-	if index == len(input){
+	}else if index == len(input){
 		end_of_input = true
 	}
 }
