@@ -18,29 +18,63 @@ var index int = 0
 var input = make([]string, 0)  //initial capacity 0 and no values. Overwrite later
 var end_of_input bool = false
 
-func Interpret_simple(locA,locB,locC,locD float64, expression string){
-
+func Interpret_simple(locA,locB,locC,locD float64, expression string) float64{
+	result := 0.0
 	//check_success(expression != nil && len(s)>0, "Expression is nil or too short")
 	a = locA
 	b = locB
 	c = locC
 	d = locD
-	println(a)
-	println(b)
-	println(c)
-	println(d)
-	println(expression)
-	
-	test := "()abc"	
 
-	tmp := strings.Split(test,"")
-	input = tmp  //Overwrite input with the real input.
-
+	input = strings.Split(expression,"")  //Overwrite input with the real input.
 
 	read_next_symbol()
 
-	print(factor())
+	if !end_of_input{
+		result = simple_expression()
+	}
+	return result
 
+}
+
+/*
+* Reads an expression from input
+* EBNF Rule:
+* SimpleExpression = [AddOp] Term { AddOb Term}
+* AddOp = "+" | "-"
+*/
+func simple_expression() float64{
+	check_success(!end_of_input, "Unexpected end of input")
+	result := 1.0
+	if symbol == "+"{
+		read_next_symbol()
+	}else if symbol == "-"{
+		result = -1
+		read_next_symbol()
+	}
+	result = result * term()
+	for !end_of_input && (symbol == "+" || symbol == "-"){
+		addOp := symbol
+		read_next_symbol()
+		result = float_value(result, addOp, term())
+	}
+	return result
+}
+
+/*
+* Reads a term from input
+* EBNF Rule:
+* Term = Factor {MulOp Factor}
+* MulOp = "*"|"/"
+*/
+func term() float64{
+	result := factor()
+	for !end_of_input && (symbol == "*" || symbol == "/"){
+		mulOp := symbol
+		read_next_symbol()
+		result = float_value(result, mulOp, factor())
+	}	
+	return result
 }
 
 /*
@@ -55,7 +89,7 @@ func factor() float64{
 		result = ident()
 	} else if symbol == "("{
 		read_next_symbol()
-		//result = simple_expression
+		result = simple_expression()
 		check_success(!end_of_input,"Unexpected end of input")
 		if symbol == ")"{
 			read_next_symbol()

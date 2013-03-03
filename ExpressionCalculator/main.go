@@ -1,7 +1,7 @@
 /*
 * Author: https://github.com/Loris1123
 * Date: 2013-03-1
-* Last Update: 2013-03-1
+* Last Update: 2013-03-3
 * File: main.go
 * Description: Main file for the expression calculator.
 */
@@ -21,13 +21,7 @@ func main(){
 	initFlags()
 	fmt.Println("Hallo Expression Calculator")
 
-	println(a)
-	println(b)
-	println(c)
-	println(d)
-	println(expression)
-
-	interpreter.Interpret_simple(a,b,c,d,expression)
+	fmt.Println(interpreter.Interpret_simple(a,b,c,d,expression))
 }
 
 func initFlags(){
